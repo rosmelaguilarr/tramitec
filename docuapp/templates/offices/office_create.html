@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Crear Oficina | TRAMITEC{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <section class="col-md-6 offset-md-3 mt-3 mb-3">
+            <h3 class="text-center mb-3"> Crear Oficina </h3>
+            <form method="POST" enctype="multipart/form-data" class="card card-body" autocomplete="off">
+                {% csrf_token %}
+                {% comment %} <input type="hidden" id="form-instance-id" data-instance-id="{{ form.instance.dni }}"> {% endcomment %}
+                {% crispy form %}
+            </form>
+        </section>
+    </div>
+
+    <div class="row">
+        <section class="col-md-8 offset-md-2" style="margin-bottom: 80px;">
+                <div class="card card-body table-responsive">
+                    <table class="datatable display">
+                        <thead>
+                            <tr>
+                                <th>Acciones</th>
+                                <th>N°</th>
+                                <th>Oficina</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for office in offices %}
+                                <tr>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm btn-outline-primary" href="{% url 'tramitec:office_update' office.id %}">
+                                                    <i class="bi bi-pencil-fill" title="Editar"></i>
+                                                </a>
+                                                <a class="btn btn-sm btn-outline-danger" href="#" onclick="deleteRecord('/tramitec/office/delete', '{{ office.id }}', '', 'delete')" title="Eliminar">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    <td class="align-middle">{{ forloop.counter }}</td>
+                                    <td class="align-middle">{{ office.name }}</td>
+                                </tr>   
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+        </section>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/search_uppercase.js' %}"></script>
+<script src="{% static 'js/datatables.js' %}"></script>
+{% endblock %}

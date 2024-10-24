@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Recepcionar Expediente | TRAMITEC{% endblock %}
+
+{% block content %}
+<div class="row">
+    <section class="col-md-8 offset-md-2 mt-3">
+        <h3 class="text-center mb-3">Recepcionar Expediente</h3>
+
+        <form method="GET" class="mb-4">
+            <div class="input-group mb-3">
+                <input type="text" name="code" class="form-control" id="exp_search" placeholder="Ingrese código del expediente" required>
+                <button type="submit" class="btn btn-primary" title="Buscar">
+                    <i class="bi bi-search mx-1" style="font-size: 1rem;"></i>
+                </button>
+            </div>
+        </form>
+
+        {% if error %}
+            <div class="alert alert-danger py-1 text-center" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+    </section>
+
+    {% if expedient %}
+    <section class="col-md-8 offset-md-2">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="d-flex">
+                <div class="mb-3">
+                    <label for="expedient_code">Expediente</label>
+                    <input type="text" id="expedient_code" value="{{ expedient.code }}" class="form-control" style="background-color: rgb(248 249 251);" readonly>
+                </div>
+                <div class="mb-3 flex-fill ms-2">
+                    <label for="expedient_doc_number">N° Documento</label>
+                    <input type="text" id="expedient_doc_number" value="{{ expedient.doc_number }}" class="form-control" style="background-color: rgb(248 249 251);" readonly>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="expedient_subject">Asunto</label>
+                <textarea id="expedient_subject" class="form-control" cols="30" rows="1" style="background-color: rgb(248 249 251);" readonly>{{ expedient.subject }}</textarea>
+            </div>
+
+            <div class="card p-3">
+                {% crispy form %}
+            </div>
+
+        </form>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/search_uppercase.js' %}"></script>
+{% endblock %}

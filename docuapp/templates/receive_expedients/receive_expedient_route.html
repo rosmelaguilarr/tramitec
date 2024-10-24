@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ruta del Expediente | TRAMITEC{% endblock %}
+
+{% block content %}
+<div class="row">
+    <section class="col-md-8 offset-md-2 mt-2">
+        <h3 class="text-center mb-3">Ruta del Expediente </h3>
+
+        <form method="GET" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="code" class="form-control" id="exp_search" placeholder="Ingrese código del expediente" required>
+                <button type="submit" class="btn btn-primary" title="Buscar">
+                    <i class="bi bi-search mx-1" style="font-size: 1rem;"></i>
+                </button>
+            </div>
+        </form>
+
+        {% if error %}
+        <div class="alert alert-danger py-1 text-center" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if expedient %}
+            <div class="card card-body mb-2">
+                <table class="table table_route">
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-end" style="width: 120px;">Expediente:</td>
+                            <td class="text-start">{{ expedient.code }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">Fecha de Creación:</td>
+                            <td class="text-start">{{ expedient.created_at|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">Tipo Documento:</td>
+                            <td class="text-start">{{ expedient.document }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">N° Documento:</td>
+                            <td class="text-start">{{ expedient.doc_number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">Asunto:</td>
+                            <td class="text-start">{{ expedient.subject }}</td>
+                        </tr>
+                        <tr>
+                            <td class="text-end">Remitente:</td>
+                            <td class="text-start">{{ expedient.remitter }}</td>
+                        </tr>
+                        {% if expedient.phone %}
+                            <tr>
+                                <td class="text-end">Telefono:</td>
+                                <td class="text-start">{{ expedient.phone }}</td>
+                            </tr>
+                        {% endif %}
+
+                        {% if expedient.email %}
+                            <tr>
+                                <td class="text-end">Email:</td>
+                                <td class="text-start">{{ expedient.email }}</td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td class="text-end">Usuario:</td>
+                            <td class="text-start">{{ expedient.user }}</td>
+                        </tr>
+                        {% if expedient.observation != 'NINGUNO' %}
+                            <tr>
+                                <td class="text-end">Observación:</td>
+                                <td class="text-start">
+                                    {{ expedient.observation }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            
+            <div class="card card-body table-responsive">
+                <table class="table table-striped table_search">
+                <thead>
+                    <tr>
+                        <th scope="col">Fecha Ingreso</th>
+                        <th scope="col">Fecha Atención</th>
+                        <th scope="col">Oficina</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in related_records %}
+                        <tr>
+                            <td>{{ record.created_at|date:"d/m/Y H:i" }}</td>
+                            <td>{{ record.date_attention|date:"d/m/Y H:i" }}</td>
+                            <td>{{ record.office }}</td>
+                            <td>{{ record.condition }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center" style="color: #58151c;">No hay registros para el expediente: {{ expedient.code }} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var fields = [
+            { id: 'exp_search', transform: 'toUpperCase' },
+        ];
+
+        function transformInput(event, transform) {
+            if (transform === 'toUpperCase') {
+            event.target.value = event.target.value.toUpperCase();
+            }
+        }
+
+        fields.forEach(function (field) {
+            var element = document.getElementById(field.id);
+
+            if (field.transform === 'toUpperCase') {
+            element.addEventListener('input', function (event) {
+                transformInput(event, field.transform);
+            });
+            }
+
+        });
+
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Tramitar Documento | TRAMITEC{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <section class="col-md-8 offset-md-2 my-3">
+            <h3 class="text-center mb-3">Tramitar Documento</h3>
+            <form method="POST" enctype="multipart/form-data" class="card card-body mb-5" autocomplete="off">
+                {% csrf_token %}
+                {% comment %} <input type="hidden" id="form-instance-id" data-instance-id="{{ form.instance.dni }}"> {% endcomment %}
+                {% crispy form %}
+            </form>
+        </section>
+    </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/expedient_form.js' %}"></script>
+{% endblock %}

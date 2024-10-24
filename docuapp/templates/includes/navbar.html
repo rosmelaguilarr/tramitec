@@ -1,0 +1,102 @@
+{% load static %}
+
+<div class="sidebar">
+  <nav class="nav flex-column">
+    <a class="nav-link" href="#" id="toggleSidebar">
+      <span class="icon">
+        <i class="bi bi-list"></i>
+      </span>
+    </a>
+    
+    <div>
+      <a class="nav-link" href="{% url 'tramitec:home' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Inicio">
+        <span class="icon">
+          <i class="bi bi-house-door"></i>
+        </span>
+        <span class="description">Inicio</span>
+      </a>
+
+      <a class="nav-link" href="{% url 'tramitec:receive_expedient_route' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Ver Ruta">
+        <span class="icon"><i class="bi bi-eye"></i></span>
+        <span class="description">Ver Ruta</span>
+      </a>
+  
+  
+      <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu_emision" aria-expanded="false" aria-controls="submenu" title="Tramitar">
+        <span class="icon"><i class="bi bi-box-arrow-up"></i></span>
+        <span class="description">Tramitar <i class="bi bi-caret-down-fill"></i></span>
+      </a>
+    
+        <div class="sub-menu collapse" id="submenu_emision">
+          <a class="nav-link" href="{% url 'tramitec:expedient_create' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Nuevo">
+            <span class="icon"><i class="bi bi-plus-lg"></i></span>
+            <span class="description">Nuevo</span>
+          </a>
+          <a class="nav-link" href="{% url 'tramitec:expedient_list' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Buscar">
+            <span class="icon"><i class="bi bi-search"></i></span>
+            <span class="description">Buscar</span>
+          </a>
+        </div>
+
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu_recepcion" aria-expanded="false" aria-controls="submenu" title="Recepcionar">
+          <span class="icon"><i class="bi bi-box-arrow-down"></i></span>
+          <span class="description">Recepcionar <i class="bi bi-caret-down-fill"></i></span>
+        </a>
+      
+          <div class="sub-menu collapse" id="submenu_recepcion">
+            <a class="nav-link" href="{% url 'tramitec:receive_expedient_create' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Nuevo">
+              <span class="icon"><i class="bi bi-plus-lg"></i></span>
+              <span class="description">Nuevo</span>
+            </a>
+            <a class="nav-link" href="{% url 'tramitec:receive_expedient_list' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Buscar">
+              <span class="icon"><i class="bi bi-search"></i></span>
+              <span class="description">Buscar</span>
+            </a>
+          </div>
+
+        <a href="{% url 'tramitec:doctype_create' %}" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tipo Documento">
+          <span class="icon">
+            <i class="bi bi-file-earmark-text"></i>
+          </span>
+          <span class="description">Tipo Documento</span>
+        </a>
+
+        <a href="{% url 'tramitec:office_create' %}" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Oficinas">
+          <span class="icon">
+            <i class="bi bi-buildings"></i>
+          </span>
+          <span class="description">Oficinas</span>
+        </a>
+
+    </div>
+
+    {% if user.is_authenticated %}
+      <div class="box-exit">
+        <a href="#" class="nav-link btn_user" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="{{ user.first_name|upper }} {{ user.last_name|upper }}">
+          <span class="icon">
+            <i class="bi bi-person"></i>
+          </span>
+          <span class="description fw-semibold" style="font-size: .7rem;">
+            {% if not user.first_name %}
+              {{ user.username|upper }}
+            {% else %}
+              {{ user.first_name|upper }} {{ user.last_name|upper }}
+            {% endif %}
+          </span>
+        </a>
+        <a href="{% url 'tramitec:logout' %}" class="nav-link btn_exit" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="SALIR">
+          <span class="icon">
+            <i class="bi bi-power"></i>
+          </span>
+          <span class="description fw-semibold text-uppercase" style="font-size: .7rem;">Salir</span>
+        </a>
+      </div>
+    {% endif %}
+  </nav>
+</div>
+
+<script>
+		$(document).ready(function(){
+				$('[data-bs-toggle="tooltip"]').tooltip();
+		});
+</script>

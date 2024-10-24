@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio | TRAMITEC{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center" style="height: 85vh;">
+            <div class="text-center">
+                <section class="col-xxl-6 offset-xxl-3 col-sm-8 offset-sm-2">
+                    <div class="text-center">
+                        <img src="{% static 'images/logo_tramitec.png' %}" alt="TRAMITEC" height="230px" />
+                    </div>
+                    <h1 class=" text-center mt-4" style="color:#011224;">
+                        Sistema de Trámite Documentario
+                    </h1>
+                    {% if user.is_authenticated %}
+                        <div class="d-flex justify-content-center my-5">
+                            <a class="btn btn-primary w-50 mx-1" href="{% url 'tramitec:expedient_create' %}">
+                                <i class="bi bi-file-arrow-up mx-1" style="font-size: 1.2rem; color: #fff;"></i>
+                                Tramitar
+                            </a>
+                            <a class="btn btn-primary w-50 mx-1" href="{% url 'tramitec:receive_expedient_create' %}"> 
+                                <i class="bi bi-file-arrow-down mx-1" style="font-size: 1.2rem; color: #fff;"></i>
+                                Recepcionar
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="d-flex justify-content-center my-4">
+                            <a class="btn btn-primary mx-2 px-5" href="{% url 'tramitec:login' %}">
+                                Iniciar Sesión
+                            </a>
+                        </div>
+                    {% endif %}  
+
+
+                    </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hoja de Ruta</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1cm;
+        }
+        body {
+            display: flex;
+            justify-content: start; 
+            align-items: center;      
+            height: 100vh;           
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            width: 45%;  
+            box-sizing: border-box;
+            text-transform: uppercase;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            font-size: 16px;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            
+        }
+        .table-container {
+            width: 100%;
+            margin-top: 20px;
+            font-size: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            text-align: left;
+            padding: 2px 0;
+        }
+        th {
+            background-color: #f0f0f0;
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
+        p{
+            padding: 0;
+            margin: 0;
+        }
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+        .header-text{
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        img{
+            height: 55px;
+        }
+        .pt-5{
+            padding-top: 5px;
+        }
+        .pb-5{
+            padding-bottom: 5px;
+        }
+        .ps-5{
+            padding-left: 5px;
+        }
+        .pe-5{
+            padding-right: 5px;
+        }
+        .bs-1{
+            border-left: 1px solid #000;
+        }
+        .be-1{
+            border-right: 1px solid #000;
+        }
+        .date, .username{
+            position: absolute;
+            top: 0;
+            font-size: 10px;
+            right: 0;
+        }
+        .username{
+            left: 0;
+            text-align: left;
+            font-size: 9px;
+        }
+        .table-border td{
+            border: 1px solid #000; 
+            height: 50px;
+        }
+        .bold{
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-container">
+            <div>
+                <span class="date">{{ date }}</span>
+                <span class="username">{{ user.username }}</span>
+                <div class="header">
+                    <img src="{{ img_drta }}" />
+                    <div class="header-text">
+                        <p>Dirección Regional de Transportes</p>
+                        <p>y Comunicaciones</p> 
+                        <p style="font-size: 11px; padding-top:5px; font-style: italic;">Sistema de Trámite Documentario</p>
+                    </div>
+                    <img src="{{ img_tramitec }}" />
+                </div>
+            </div>
+            
+            <table class="bs-1 be-1">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            <h1>Hoja de Ruta</h1>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 120px;" class="pt-5 ps-5">Expediente</td>
+                        <td class="pt-5">:</td>
+                        <td class="pt-5 bold"> {{ expedient.code }} </td>
+                    </tr>
+                    <tr>
+                        <td class="ps-5">Fecha</td>
+                        <td>:</td>
+                        <td> {{ expedient.created_at|date:"d/m/Y H:i" }} </td>
+                    </tr>
+                    <tr>
+                        <td class="ps-5">N° Documento</td>
+                        <td>:</td>
+                        <td> {{ expedient.doc_number }} </td>
+                    </tr>
+                    <tr>
+                        <td class="ps-5">Asunto</td>
+                        <td>:</td>
+                        <td> {{ expedient.subject }} </td>
+                    </tr>
+                    <tr>
+                        <td class="ps-5">Remitente</td>
+                        <td>:</td>
+                        <td> {{ expedient.remitter }} </td>
+                    </tr>
+                    {% if expedient.phone %}
+                        <tr>
+                            <td class="ps-5">Teléfono</td>
+                            <td>:</td>
+                            <td> {{ expedient.phone }} </td>
+                        </tr>
+                    {% endif %}
+                    {% if expedient.email %}
+                        <tr>
+                            <td class="pb-5 ps-5">Email</td>
+                            <td class="pb-5">:</td>
+                            <td class="pb-5"> {{ expedient.email }} </td>
+                        </tr>
+                    {% endif %}
+                    
+                </tbody>
+            </table>
+
+            <table class="table-border">
+                <thead>
+                    <tr class="bs-1 be-1">
+                        <th style="width:40%" class="be-1">Destino</th>
+                        <th style="width:12%" class="be-1">N° Prov.</th>
+                        <th style="width:15%" class="be-1">Fecha</th>
+                        <th style="width:12%" class="be-1">Folios</th>
+                        <th>Firma</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ps-5"> {{ expedient.destination }} </td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: center;"> {{ expedient.folio }} </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td> </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table-border">
+                <thead>
+                    <tr class="bs-1 be-1">
+                        <th style="border-top: none ;">Observación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{ base_url }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

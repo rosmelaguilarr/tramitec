@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Actualizar Expediente | TRAMITEC{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <section class="col-md-8 offset-md-2 my-5">
+            <h3 class="text-center mb-3">
+                <a class="btn btn-sm" href="{% url 'tramitec:receive_expedient_list' %}" title="Regresar" style="background-color: #072e5e;">
+                    <i class="bi bi-arrow-left mx-1" style="font-size: 1rem; color: #fff;"></i>
+                </a>
+                Actualizar Expediente
+            </h3>
+            <form method="POST" enctype="multipart/form-data" class="card card-body mb-5" autocomplete="off">
+                {% csrf_token %}
+                {% comment %} <input type="hidden" id="form-instance-id" data-instance-id="{{ form.instance.dni }}"> {% endcomment %}
+                {% crispy form %}
+            </form>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const conditionSelect = document.getElementById('id_condition');
+            const destinationField = document.getElementById('div_id_destination');
+    
+            function toggleDestinationField() {
+                if (conditionSelect.options[conditionSelect.selectedIndex].text === 'FINALIZADO') {
+                    destinationField.style.display = 'none'; 
+                } else {
+                    destinationField.style.display = '';  
+                }
+            }
+    
+            toggleDestinationField();
+    
+            conditionSelect.addEventListener('change', toggleDestinationField);
+        });
+    </script>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/search_uppercase.js' %}"></script>
+{% endblock %}
+

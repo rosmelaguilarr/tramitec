@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Documentos Tramitados | TRAMITEC{% endblock %}
+
+{% block content %}
+<div class="row">
+    <section class="col-md-6 offset-md-3 mt-3">
+        <h3 class="text-center mb-3">Documentos Tramitados</h3>
+    </section> 
+
+    <section class="col-md-12" style="margin-bottom: 80px;">
+            <div class="card card-body table-responsive">
+                <table class="datatable display">
+                    <thead>
+                        <tr>
+                            <th>Acciones</th>
+                            <th>Fecha Creación</th>
+                            <th>Expediente</th>
+                            <th>Documento</th>
+                            <th>N° Doc.</th>
+                            <th>Asunto</th>
+                            <th>Oficina Destino</th>
+                            <th>Estado</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expedient in expedients %}
+                            <tr>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a class="btn btn-sm btn-outline-primary {% if expedient.condition.name != 'ASIGNADO' %}disabled{% endif %}" href="{% url 'tramitec:generate_expedient_pdf' expedient.id %}" target="_blank">
+                                                <i class="bi bi-printer-fill" title="Imprimir"></i>
+                                            </a>
+                                            <a class="btn btn-sm btn-outline-primary {% if expedient.condition.name != 'ASIGNADO' %}disabled{% endif %}" href="{% url 'tramitec:expedient_update' expedient.id %}">
+                                                <i class="bi bi-pencil-fill" title="Editar"></i>
+                                            </a>
+                                            <a class="btn btn-sm btn-outline-danger " href="#" onclick="deleteRecord('/tramitec/expedient/delete', '{{ expedient.id }}', '', 'delete')" title="Eliminar">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                <td class="align-middle">{{ expedient.created_at|date:"d/m/Y H:i" }}</td>
+                                <td class="align-middle">{{ expedient.code }}</td>
+                                <td class="align-middle">{{ expedient.document }}</td>
+                                <td class="align-middle">{{ expedient.doc_number }}</td>
+                                <td class="align-middle">{{ expedient.subject }}</td>
+                                <td class="align-middle">{{ expedient.destination }}</td>
+                                <td class="align-middle">
+                                    {% if expedient.condition.name == 'FINALIZADO' %}
+                                    <i class="bi bi-check-circle text-success"></i>
+                                    {% else %}
+                                    <i class="bi bi-clock text-danger"></i>
+                                    {% endif %}
+                                </td>
+                                <td class="align-middle">{{ expedient.user|upper }}</td>
+                                
+                            </tr>   
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/datatables.js' %}"></script>
+{% endblock  %}
+
+
