@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Crear Tipo de Documento | TRAMITEC{% endblock %}
+{% block title %}Registrar Tipo de Documento | TRAMITEC{% endblock %}
 
 {% block content %}
     <div class="row">
         <section class="col-md-6 offset-md-3 mt-3 mb-3">
-            <h3 class="text-center mb-3">Crear Tipo de Documento </h3>
+            <h3 class="text-center mb-3">Registrar Tipo de Documento </h3>
             <form method="POST" enctype="multipart/form-data" class="card card-body" autocomplete="off">
                 {% csrf_token %}
                 {% comment %} <input type="hidden" id="form-instance-id" data-instance-id="{{ form.instance.dni }}"> {% endcomment %}

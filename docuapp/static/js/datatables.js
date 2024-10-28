@@ -31,23 +31,11 @@ $('#search-clear-button').on('click', function() {
 });
 
 // Enfocar el campo de búsqueda del DataTable
-setTimeout(function() {
-    $('.dataTables_filter input').focus();
-}, 100); // Un pequeño retraso para asegurarse de que el campo está en el DOM
+// setTimeout(function() {
+//     $('.dataTables_filter input').focus();
+// }, 100); 
 
-// Aplicar fondo rojo a filas canceladas
-// dataTable.on('draw', function() {
-//     $('.datatable tbody tr').each(function() {
-//         var canceled = $(this).attr('data-canceled'); 
-        
-//         if (canceled === 'true') {
-//             $(this).css('color', '#dc3545');  
-//         } else {
-//             $(this).css('background-color', '');
-//             $(this).css('color', '');
-//         }
-//     });
-// });
+
 
 dataTable.draw();
 });

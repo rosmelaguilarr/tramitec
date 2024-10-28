@@ -11,6 +11,8 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
 import pytz
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 
 
@@ -347,6 +349,64 @@ def receive_expedient_list_view(request):
                 {
                     'receive_expedients': results,
                 })
+
+# REPORT ------------------------------------------------------------------->
+@login_required
+def receive_expedient_report_view(request):
+    all_conditions = Condition.objects.exclude(name='ASIGNADO')
+
+    if request.method == 'GET' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        conditions = request.GET.getlist('condition[]', [])
+
+        expedients = (
+            ReceiveExpedient.objects.filter(condition__name__in=conditions)
+            if conditions else []
+        )
+
+        data = [
+            {
+                'exp_code': exp.exp_code,
+                'created_at': exp.created_at.strftime('%d/%m/%Y %H:%M'),
+                'date_attention': exp.date_attention.strftime('%d/%m/%Y %H:%M') if exp.date_attention else None,
+                'exp_number': exp.exp_number,
+                'office': exp.office.name,
+                'condition': exp.condition.name,
+                'user': exp.user.username
+            }
+            for exp in expedients
+        ]
+
+        return JsonResponse({'expedients': data})
+
+    return render(request, 'receive_expedients/receive_expedient_report.html', {
+        'conditions': all_conditions
+    })
+
+@login_required
+def receive_expedient_report_pdf_view(request):
+    conditions = request.GET.getlist('condition[]', [])
+    expedients = ReceiveExpedient.objects.filter(condition__name__in=conditions) if conditions else []
+
+    base_url = 'file:///C:/tramitec/'
+
+    current_date = timezone.localtime(timezone.now(), timezone=pytz.timezone('America/Lima'))
+    date_print = format_datetime(current_date, format="d'/'MM'/'yyyy HH:mm", locale='es')
+
+    data = {
+        'date': date_print,
+        'expedients': expedients,
+        'current_date': current_date,
+        'img_drta': f"{base_url}static/images/drta.png",
+        'img_tramitec': f"{base_url}static/images/logo_tramitec.png",
+    }
+
+    html_string = render_to_string('receive_expedients/receive_expedient_report_pdf.html', data)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="expedient_report.pdf"'
+    HTML(string=html_string).write_pdf(response)
+
+    return response
 
 # ROUTE ------------------------------------------------------------------->
 @login_required

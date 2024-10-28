@@ -27,5 +27,7 @@ urlpatterns = [
     path('receive_expedient/list/', views.receive_expedient_list_view, name='receive_expedient_list'),
     path('receive_expedient/delete/<uuid:id>', views.receive_expedient_delete_view, name='receive_expedient_delete'),
     path('receive_expedient/route/', views.receive_expedient_route_view, name='receive_expedient_route'),
-    
+    path('receive_expedient/report/', views.receive_expedient_report_view, name='receive_expedient_report'),
+    path('receive_expedient/report/pdf/', views.receive_expedient_report_pdf_view, name='receive_expedient_report_pdf'),
+
 ]

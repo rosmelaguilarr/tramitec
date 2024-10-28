@@ -21,7 +21,6 @@
         <span class="description">Ver Ruta</span>
       </a>
   
-  
       <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu_emision" aria-expanded="false" aria-controls="submenu" title="Tramitar">
         <span class="icon"><i class="bi bi-box-arrow-up"></i></span>
         <span class="description">Tramitar <i class="bi bi-caret-down-fill"></i></span>
@@ -68,6 +67,13 @@
           <span class="description">Oficinas</span>
         </a>
 
+        <a href="{% url 'tramitec:receive_expedient_report' %}" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Reporte">
+          <span class="icon">
+            <i class="bi bi-printer"></i>
+          </span>
+          <span class="description">Reporte</span>
+        </a>
+
     </div>
 
     {% if user.is_authenticated %}
@@ -80,7 +86,7 @@
             {% if not user.first_name %}
               {{ user.username|upper }}
             {% else %}
-              {{ user.first_name|upper }} {{ user.last_name|upper }}
+              {{ user.first_name|upper }} {{ user.last_name|upper }} <span style="color: #ffb02e; font-size: 12px;"> 👑</span>
             {% endif %}
           </span>
         </a>

@@ -18,6 +18,12 @@ class DocTypeForm(ModelForm):
 
         self.fields['name'].widget.attrs.update({'autofocus': 'autofocus'})
 
+        # Verificamos si estamos en modo edición
+        if hasattr(self.instance, 'name') and self.instance.name:
+            submit_text = "Actualizar"
+        else:
+            submit_text = "Registrar"
+
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
         self.helper.form_class = 'card card-body mb-5'
@@ -26,7 +32,7 @@ class DocTypeForm(ModelForm):
                 Column('name', css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
-            Submit('submit', 'Guardar', css_class='btn btn-primary')
+            Submit('submit', submit_text, css_class='btn btn-primary')
         )
 
 
@@ -43,6 +49,12 @@ class OfficeForm(ModelForm):
 
         self.fields['name'].widget.attrs.update({'autofocus': 'autofocus'})
 
+        # Verificamos si estamos en modo edición
+        if hasattr(self.instance, 'name') and self.instance.name:
+            submit_text = "Actualizar"
+        else:
+            submit_text = "Registrar"
+
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
         self.helper.form_class = 'card card-body mb-5'
@@ -51,7 +63,7 @@ class OfficeForm(ModelForm):
                 Column('name', css_class='form-group col-md-12 mb-0'),
                 css_class='form-row'
             ),
-            Submit('submit', 'Guardar', css_class='btn btn-primary')
+            Submit('submit', submit_text, css_class='btn btn-primary')
         )
 
 
@@ -87,6 +99,11 @@ class ExpedientForm(ModelForm):
         if not self._should_show_contact_fields(user):
             del self.fields['phone']
             del self.fields['email']
+        
+        if hasattr(self.instance, 'doc_number') and self.instance.doc_number:
+            submit_text = "Actualizar"
+        else:
+            submit_text = "Registrar"
 
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
@@ -117,7 +134,7 @@ class ExpedientForm(ModelForm):
                 Column('observation', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
-            Submit('submit', 'Guardar', css_class='btn btn-primary')
+            Submit('submit', submit_text, css_class='btn btn-primary')
         )
 
         self.fields['document'].empty_label = 'Escoge documento...'
@@ -185,6 +202,9 @@ class ReceiveExpedientForm(forms.ModelForm):
             self.fields['condition'].widget.attrs.pop('readonly', None)
             self.fields['condition'].widget.attrs.pop('style', None)
 
+            submit_text = "Actualizar"
+        else:
+            submit_text = "Registrar"
 
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
@@ -203,7 +223,7 @@ class ReceiveExpedientForm(forms.ModelForm):
             #     Column('observation', css_class='form-group col-md-12 mb-0'),
             #     css_class='form-row'
             # ),
-            Submit('submit', 'Guardar', css_class='btn btn-primary')
+            Submit('submit', submit_text, css_class='btn btn-primary')
         )
 
         self.fields['office'].empty_label = 'Escoge oficina...'

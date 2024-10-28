@@ -49,9 +49,9 @@
                                 <td class="align-middle">{{ expedient.destination }}</td>
                                 <td class="align-middle">
                                     {% if expedient.condition.name == 'FINALIZADO' %}
-                                    <i class="bi bi-check-circle text-success"></i>
+                                    <i class="bi bi-check-circle text-success" title="FINALIZADO"></i>
                                     {% else %}
-                                    <i class="bi bi-clock text-danger"></i>
+                                    <i class="bi bi-clock text-danger " title="TRAMITE"></i>
                                     {% endif %}
                                 </td>
                                 <td class="align-middle">{{ expedient.user|upper }}</td>

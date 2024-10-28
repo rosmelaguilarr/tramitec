@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Crear Oficina | TRAMITEC{% endblock %}
+{% block title %}Registrar Oficina | TRAMITEC{% endblock %}
 
 {% block content %}
     <div class="row">
         <section class="col-md-6 offset-md-3 mt-3 mb-3">
-            <h3 class="text-center mb-3"> Crear Oficina </h3>
+            <h3 class="text-center mb-3"> Registrar Oficina </h3>
             <form method="POST" enctype="multipart/form-data" class="card card-body" autocomplete="off">
                 {% csrf_token %}
                 {% comment %} <input type="hidden" id="form-instance-id" data-instance-id="{{ form.instance.dni }}"> {% endcomment %}
