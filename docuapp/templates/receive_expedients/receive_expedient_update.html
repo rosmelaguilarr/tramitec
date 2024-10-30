@@ -25,18 +25,40 @@
         document.addEventListener('DOMContentLoaded', function() {
             const conditionSelect = document.getElementById('id_condition');
             const destinationField = document.getElementById('div_id_destination');
+            const observationField = document.getElementById('div_id_observation');
     
             function toggleDestinationField() {
                 if (conditionSelect.options[conditionSelect.selectedIndex].text === 'FINALIZADO') {
                     destinationField.style.display = 'none'; 
+                    observationField.style.display = ''; 
+
                 } else {
                     destinationField.style.display = '';  
+                    observationField.style.display = 'none'; 
                 }
             }
     
             toggleDestinationField();
     
             conditionSelect.addEventListener('change', toggleDestinationField);
+
+            //Inicio cambiar RECIBIDO a DERIVADO
+            if (conditionSelect) {
+                let derivadoValue = null;
+
+                for (let i = 0; i < conditionSelect.options.length; i++) {
+                    if (conditionSelect.options[i].text === 'DERIVADO') {
+                        derivadoValue = conditionSelect.options[i].value; 
+                        break;
+                    }
+                }
+
+                if (derivadoValue && conditionSelect.options[conditionSelect.selectedIndex].text === 'RECIBIDO') {
+                    conditionSelect.value = derivadoValue;
+                }
+            } 
+            //Fin cambiar RECIBIDO a DERIVADO
+
         });
     </script>
 

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,16 +21,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x#y-+uv*&@^5og!%(_peuz9cuad!-cu6-=$ej4u^=&uj49p&m&'
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = config('DEBUG', default=False, cast=bool)
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.71.244']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.71.100']
 
 CSRF_COOKIE_HTTPONLY = True  # En producción debería ser True
-CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1', 'http://127.0.0.1:8000', 'http://localhost:8000', 'http://192.168.71.244:8000', 'http://192.168.71.244']
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1', 'http://127.0.0.1:8000', 'http://localhost:8000', 'http://192.168.71.100:8000', 'http://192.168.71.100']
 
 # Application definition
 
@@ -41,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms',          # Crispy Forms
-    'crispy_bootstrap5',      # Framework CSS opcional
+    'crispy_forms',          
+    'crispy_bootstrap5',      
     'docuapp',
 ]
 
@@ -72,6 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'docuapp.context_processors.user_groups_processor',
+                'docuapp.context_processors.user_offices_by_group',
             ],
         },
     },
@@ -83,10 +87,21 @@ WSGI_APPLICATION = 'docutrack.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('POSTGRES_HOST', default='localhost'),
+        'PORT': config('POSTGRES_PORT', default='5432'),
     }
 }
 
@@ -136,3 +151,8 @@ LOGIN_URL= '/tramitec/login'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#60 min.
+# SESSION_COOKIE_AGE=3600 
+# SESSION_EXPIRE_AT_BROWSER_CLOSE=True

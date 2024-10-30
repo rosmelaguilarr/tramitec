@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from docuapp.models import DocType, Office, Condition
+from docuapp.models import Condition
 
 class Command(BaseCommand):
     help = 'Populate the database with initial data'

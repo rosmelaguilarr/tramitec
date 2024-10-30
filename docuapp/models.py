@@ -106,7 +106,7 @@ class ReceiveExpedient(models.Model):
     office = models.ForeignKey(Office, on_delete=models.PROTECT, verbose_name='Oficina Actual')
     destination = models.ForeignKey(Office, on_delete=models.PROTECT, verbose_name='Oficina Destino',  related_name='destinations', null=True, blank=True)
     condition = models.ForeignKey(Condition, on_delete=models.PROTECT, default="RECIBIDO", verbose_name='Estado')
-    observation = models.TextField(verbose_name='Observación', default="NINGUNO", null=True, blank=True)
+    observation = models.TextField(verbose_name='Motivo', default="", null=True, blank=True)
     date_attention = models.DateTimeField(auto_now=False, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)

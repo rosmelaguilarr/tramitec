@@ -8,7 +8,7 @@
     <section class="col-md-8 offset-md-2 mt-2">
         <h3 class="text-center mb-3">Ruta del Expediente </h3>
 
-        <form method="GET" class="mb-4">
+        <form method="GET" class="mb-4" autocomplete="off">
             <div class="input-group">
                 <input type="text" name="code" class="form-control" id="exp_search" placeholder="Ingrese código de expediente" required autofocus="autofocus">
                 <button type="submit" class="btn btn-primary" title="Buscar">
@@ -90,15 +90,29 @@
                         <th scope="col">Fecha Atención</th>
                         <th scope="col">Oficina</th>
                         <th scope="col">Estado</th>
+                        <th scope="col">Motivo</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for record in related_records %}
                         <tr>
                             <td>{{ record.created_at|date:"d/m/Y H:i" }}</td>
-                            <td>{{ record.date_attention|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                {% if record.date_attention %}
+                                    {{ record.date_attention|date:"d/m/Y H:i" }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
                             <td>{{ record.office }}</td>
                             <td>{{ record.condition }}</td>
+                            <td>
+                                {% if record.observation %}
+                                    {{ record.observation }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
                         </tr>
                     {% empty %}
                         <tr>

@@ -4,7 +4,7 @@ from import_export.admin import ImportExportModelAdmin
 from .models import Office, Expedient, ReceiveExpedient, DocType
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin, GroupAdmin as DefaultGroupAdmin
-from .resources import GroupResource, UserResource
+from .resources import GroupResource, UserResource, OfficeResource
 
 
 admin.site.site_header = "Sistema de Trámite Documentario | TRAMITEC"
@@ -30,11 +30,18 @@ class DocTypeAdmin(ImportExportModelAdmin):
     list_display = ('name',)  
     search_fields = ('name',)  
 
+# @admin.register(Office)
+# class OfficeAdmin(ImportExportModelAdmin):
+#     list_display = ('name', 'user', 'created_at') 
+#     search_fields = ('name',)  
+#     filter_horizontal = ('groups',)  
+
 @admin.register(Office)
 class OfficeAdmin(ImportExportModelAdmin):
+    resource_class = OfficeResource  
     list_display = ('name', 'user', 'created_at') 
-    search_fields = ('name',)  
-    filter_horizontal = ('groups',)  
+    search_fields = ('name', 'user__username')  
+    filter_horizontal = ('groups',) 
 
 @admin.register(Expedient)
 class ExpedientAdmin(admin.ModelAdmin):
@@ -43,5 +50,5 @@ class ExpedientAdmin(admin.ModelAdmin):
 
 @admin.register(ReceiveExpedient)
 class ReceiveExpedientAdmin(admin.ModelAdmin):
-    list_display = ('expedient', 'destination', 'condition', 'destination', 'date_attention', 'user', 'created_at') 
+    list_display = ('expedient', 'office', 'condition', 'destination', 'date_attention', 'user', 'created_at') 
     readonly_fields = ('created_at',)

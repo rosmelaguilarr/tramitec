@@ -21,6 +21,9 @@
         <span class="description">Ver Ruta</span>
       </a>
   
+
+      {% if not is_query %}
+
       <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu_emision" aria-expanded="false" aria-controls="submenu" title="Tramitar">
         <span class="icon"><i class="bi bi-box-arrow-up"></i></span>
         <span class="description">Tramitar <i class="bi bi-caret-down-fill"></i></span>
@@ -37,21 +40,23 @@
           </a>
         </div>
 
-        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu_recepcion" aria-expanded="false" aria-controls="submenu" title="Recepcionar">
-          <span class="icon"><i class="bi bi-box-arrow-down"></i></span>
-          <span class="description">Recepcionar <i class="bi bi-caret-down-fill"></i></span>
-        </a>
-      
-          <div class="sub-menu collapse" id="submenu_recepcion">
-            <a class="nav-link" href="{% url 'tramitec:receive_expedient_create' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Nuevo">
-              <span class="icon"><i class="bi bi-plus-lg"></i></span>
-              <span class="description">Nuevo</span>
-            </a>
-            <a class="nav-link" href="{% url 'tramitec:receive_expedient_list' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Buscar">
-              <span class="icon"><i class="bi bi-search"></i></span>
-              <span class="description">Buscar</span>
-            </a>
-          </div>
+        {% if not is_mpmtc %}
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu_recepcion" aria-expanded="false" aria-controls="submenu" title="Recepcionar">
+            <span class="icon"><i class="bi bi-box-arrow-down"></i></span>
+            <span class="description">Recepcionar <i class="bi bi-caret-down-fill"></i></span>
+          </a>
+        
+            <div class="sub-menu collapse" id="submenu_recepcion">
+              <a class="nav-link" href="{% url 'tramitec:receive_expedient_create' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Nuevo">
+                <span class="icon"><i class="bi bi-plus-lg"></i></span>
+                <span class="description">Nuevo</span>
+              </a>
+              <a class="nav-link" href="{% url 'tramitec:receive_expedient_list' %}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Buscar">
+                <span class="icon"><i class="bi bi-search"></i></span>
+                <span class="description">Buscar</span>
+              </a>
+            </div>
+          {% endif %}
 
         <a href="{% url 'tramitec:doctype_create' %}" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tipo Documento">
           <span class="icon">
@@ -73,6 +78,9 @@
           </span>
           <span class="description">Reporte</span>
         </a>
+        {% endif %}
+
+
 
     </div>
 
@@ -80,13 +88,17 @@
       <div class="box-exit">
         <a href="#" class="nav-link btn_user" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="{{ user.first_name|upper }} {{ user.last_name|upper }}">
           <span class="icon">
+            {% if is_admin %}
+            <i class="bi bi-person-fill"></i>
+            {% else %}
             <i class="bi bi-person"></i>
+            {% endif %}
           </span>
           <span class="description fw-semibold" style="font-size: .7rem;">
             {% if not user.first_name %}
               {{ user.username|upper }}
             {% else %}
-              {{ user.first_name|upper }} {{ user.last_name|upper }} <span style="color: #ffb02e; font-size: 12px;"> 👑</span>
+              {{ user.first_name|upper }} {{ user.last_name|upper }}
             {% endif %}
           </span>
         </a>

@@ -29,8 +29,10 @@
                             <tr>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-sm btn-outline-primary {% if r_expedient.condition.name != 'ASIGNADO' and r_expedient.condition.name != 'RECIBIDO' %}disabled{% endif %}" href="{% url 'tramitec:receive_expedient_update' r_expedient.id %}">
-                                                <i class="bi bi-pencil-fill" title="Editar"></i>
+                                            {% comment %} {% if r_expedient.condition.name != 'ASIGNADO' and r_expedient.condition.name != 'RECIBIDO' %}disabled{% endif %} {% endcomment %}
+                                            <a class="btn btn-sm btn-outline-primary" href="{% url 'tramitec:receive_expedient_update' r_expedient.id %}">
+                                                {% comment %} <i class="bi bi-pencil-fill" title="Editar"></i> {% endcomment %}
+                                                <i class="bi bi-check-square-fill"></i>
                                             </a>
                                             <a class="btn btn-sm btn-outline-danger" href="#" onclick="deleteRecord('/tramitec/receive_expedient/delete', '{{ r_expedient.id }}', '', 'delete')" title="Eliminar">
                                                 <i class="bi bi-trash-fill"></i>

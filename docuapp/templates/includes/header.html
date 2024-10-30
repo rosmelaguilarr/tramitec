@@ -1,0 +1,9 @@
+<div class="office_name">
+    {% if user.is_authenticated %}
+        {% for office in user_offices %}
+            <span>{{ office.name }}</span>
+        {% empty %}
+            <span>No tienes oficinas asignadas</span>
+        {% endfor %}
+    {% endif %}
+</div>

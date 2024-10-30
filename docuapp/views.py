@@ -189,14 +189,14 @@ def expedient_update_view(request, id):
 # LIST ------------------------------------------------------------------->
 @login_required
 def expedient_list_view(request):
-    user_groups = request.user.groups.all()
-    users_in_same_groups = User.objects.filter(groups__in=user_groups).distinct()
-    results = Expedient.objects.filter(user__in=users_in_same_groups)
+    if request.user.groups.filter(name='uAdmin').exists():
+        results = Expedient.objects.all()
+    else:
+        user_groups = request.user.groups.all()
+        users_in_same_groups = User.objects.filter(groups__in=user_groups).distinct()
+        results = Expedient.objects.filter(user__in=users_in_same_groups)
 
-    return render(request, 'expedients/expedient_list.html', 
-                {
-                    'expedients': results,
-                })
+    return render(request, 'expedients/expedient_list.html', { 'expedients': results, })
 
 # GENEREATE PDF ------------------------------------------------------------------>
 @login_required
@@ -341,9 +341,12 @@ def receive_expedient_update_view(request, id):
 # LIST ------------------------------------------------------------------->
 @login_required
 def receive_expedient_list_view(request):
-    user_groups = request.user.groups.all()
-    users_in_same_groups = User.objects.filter(groups__in=user_groups).distinct()
-    results = ReceiveExpedient.objects.filter(user__in=users_in_same_groups)
+    if request.user.groups.filter(name='uAdmin').exists():
+        results = ReceiveExpedient.objects.all()
+    else:
+        user_groups = request.user.groups.all()
+        users_in_same_groups = User.objects.filter(groups__in=user_groups).distinct()
+        results = ReceiveExpedient.objects.filter(user__in=users_in_same_groups)
 
     return render(request, 'receive_expedients/receive_expedient_list.html', 
                 {
@@ -360,8 +363,7 @@ def receive_expedient_report_view(request):
 
         expedients = (
             ReceiveExpedient.objects.filter(condition__name__in=conditions)
-            if conditions else []
-        )
+            if conditions else [] )
 
         data = [
             {
@@ -382,6 +384,7 @@ def receive_expedient_report_view(request):
         'conditions': all_conditions
     })
 
+# REPORT PDF ------------------------------------------------------------------->
 @login_required
 def receive_expedient_report_pdf_view(request):
     conditions = request.GET.getlist('condition[]', [])

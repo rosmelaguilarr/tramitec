@@ -43,10 +43,14 @@
                                     </td>
                                 <td class="align-middle">{{ expedient.created_at|date:"d/m/Y H:i" }}</td>
                                 <td class="align-middle">{{ expedient.code }}</td>
-                                <td class="align-middle">{{ expedient.document }}</td>
+                                <td class="align-middle">
+                                    <span class="d-inline-block text-truncate" style="max-width: 130px;">{{ expedient.document }}</span>
+                                </td>
                                 <td class="align-middle">{{ expedient.doc_number }}</td>
                                 <td class="align-middle">{{ expedient.subject }}</td>
-                                <td class="align-middle">{{ expedient.destination }}</td>
+                                <td class="align-middle">
+                                    <span class="d-inline-block text-truncate" style="max-width: 150px;">{{ expedient.destination }}</span>
+                                </td>
                                 <td class="align-middle">
                                     {% if expedient.condition.name == 'FINALIZADO' %}
                                     <i class="bi bi-check-circle text-success" title="FINALIZADO"></i>

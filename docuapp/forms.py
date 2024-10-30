@@ -131,7 +131,7 @@ class ExpedientForm(ModelForm):
             ),
             Row(
                 Column('folio', css_class='form-group col-md-6 mb-0'),
-                Column('observation', css_class='form-group col-md-6 mb-0'),
+                # Column('observation', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
             Submit('submit', submit_text, css_class='btn btn-primary')
@@ -156,7 +156,7 @@ class ReceiveExpedientForm(forms.ModelForm):
         model = ReceiveExpedient
         fields = ['office', 'condition', 'destination' ,'observation']
         widgets = {
-            'observation': forms.Textarea(attrs={'rows': 1}),
+            'observation': forms.Textarea(attrs={'rows': 1, 'maxlength': 50}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -184,7 +184,7 @@ class ReceiveExpedientForm(forms.ModelForm):
             self.fields['destination'].widget = forms.HiddenInput()
         else:
             self.fields['destination'].widget.attrs.update({'class': 'form-control'})
-
+            
         if self.instance.pk:
             self.fields['condition'].initial = Condition.objects.get(name="RECIBIDO")
         
@@ -201,10 +201,12 @@ class ReceiveExpedientForm(forms.ModelForm):
         if hasattr(self.instance, 'office') and self.instance.office:
             self.fields['condition'].widget.attrs.pop('readonly', None)
             self.fields['condition'].widget.attrs.pop('style', None)
+            
 
             submit_text = "Actualizar"
         else:
             submit_text = "Registrar"
+            self.fields.pop('observation')
 
         self.helper = FormHelper()
         self.helper.form_method = 'POST'
@@ -219,10 +221,10 @@ class ReceiveExpedientForm(forms.ModelForm):
                 Column('destination', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
-            # Row(
-            #     Column('observation', css_class='form-group col-md-12 mb-0'),
-            #     css_class='form-row'
-            # ),
+            Row(
+                Column('observation', css_class='form-group col-md-12 mb-0'),
+                css_class='form-row'
+            ),
             Submit('submit', submit_text, css_class='btn btn-primary')
         )
 
