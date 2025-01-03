@@ -1,7 +1,10 @@
 <div class="office_name">
     {% if user.is_authenticated %}
         {% for office in user_offices %}
-            <span>{{ office.name }}</span>
+            <div class="text-center"> 
+                <span>Oficina:</span><br>
+                <span>{{ office.name }}</span>
+            </div>
         {% empty %}
             <span>No tienes oficinas asignadas</span>
         {% endfor %}
